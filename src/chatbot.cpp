@@ -8,6 +8,8 @@
 #include "graphedge.h"
 #include "chatbot.h"
 
+using namespace std;
+
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
 {
@@ -43,6 +45,61 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+ChatBot::ChatBot(const ChatBot& source) {
+    cout << "COPY Constructor" << endl;
+
+    _image = new wxBitmap(*source._image);
+    SetCurrentNode(source._currentNode);
+    SetRootNode(source._rootNode);
+    SetChatLogicHandle(source._chatLogic);
+} // COPY Constructor
+
+ChatBot::ChatBot(ChatBot&& source) {
+    cout << "MOVE Constructor" << endl;
+
+    _image = source._image;
+    SetCurrentNode(source._currentNode);
+    SetRootNode(source._rootNode);
+    SetChatLogicHandle(source._chatLogic);
+
+    source._image = NULL;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._chatLogic = nullptr;
+} // MOVE Constructor
+
+ChatBot &ChatBot::operator=(const ChatBot &source) {
+    cout << "COPY Assignment" << endl;
+    
+    if (&source == this)
+        return *this;
+
+    _image = new wxBitmap(*source._image);
+    SetCurrentNode(source._currentNode);
+    SetRootNode(source._rootNode);
+    SetChatLogicHandle(source._chatLogic);
+
+    return *this;
+} // COPY Assignment
+
+ChatBot &ChatBot::operator=(ChatBot&& source) {
+    cout << "MOVE Assignment" << endl;
+
+    if (&source == this)
+        return *this;
+    
+    _image = source._image;
+    SetCurrentNode(source._currentNode);
+    SetRootNode(source._rootNode);
+    SetChatLogicHandle(source._chatLogic);
+
+    source._image = NULL;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._chatLogic = nullptr;
+
+    return *this;
+} // MOVE Assignment
 
 ////
 //// EOF STUDENT CODE
