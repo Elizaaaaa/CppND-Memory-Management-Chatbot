@@ -49,19 +49,19 @@ ChatBot::ChatBot(const ChatBot& source) {
     cout << "COPY Constructor" << endl;
 
     _image = new wxBitmap(*source._image);
+    SetChatLogicHandle(source._chatLogic);
     SetCurrentNode(source._currentNode);
     SetRootNode(source._rootNode);
-    SetChatLogicHandle(source._chatLogic);
 } // COPY Constructor
 
 ChatBot::ChatBot(ChatBot&& source) {
     cout << "MOVE Constructor" << endl;
 
     _image = source._image;
+    SetChatLogicHandle(source._chatLogic);
     SetCurrentNode(source._currentNode);
     SetRootNode(source._rootNode);
-    SetChatLogicHandle(source._chatLogic);
-
+    
     source._image = NULL;
     source._currentNode = nullptr;
     source._rootNode = nullptr;
@@ -75,9 +75,9 @@ ChatBot &ChatBot::operator=(const ChatBot &source) {
         return *this;
 
     _image = new wxBitmap(*source._image);
+    SetChatLogicHandle(source._chatLogic);
     SetCurrentNode(source._currentNode);
     SetRootNode(source._rootNode);
-    SetChatLogicHandle(source._chatLogic);
 
     return *this;
 } // COPY Assignment
@@ -89,9 +89,9 @@ ChatBot &ChatBot::operator=(ChatBot&& source) {
         return *this;
     
     _image = source._image;
+    SetChatLogicHandle(source._chatLogic);
     SetCurrentNode(source._currentNode);
     SetRootNode(source._rootNode);
-    SetChatLogicHandle(source._chatLogic);
 
     source._image = NULL;
     source._currentNode = nullptr;
@@ -143,6 +143,7 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     // update pointer to current node
     _currentNode = node;
 
+    if (node == nullptr) cout << "Empty node!" << endl;
     // select a random node answer (if several answers should exist)
     std::vector<std::string> answers = _currentNode->GetAnswers();
     std::mt19937 generator(int(std::time(0)));
@@ -150,6 +151,7 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     std::string answer = answers.at(dis(generator));
 
     // send selected node answer to user
+    if (_chatLogic == nullptr) cout << "Empty chatLogic!" << endl;
     _chatLogic->SendMessageToUser(answer);
 }
 
