@@ -183,12 +183,13 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
     // add chatbot to graph root node
      // create instance of chatbot
-    ChatBot _chatBot("../images/chatbot.png");
+    ChatBot bot("../images/chatbot.png");
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot.SetChatLogicHandle(this);
-    _chatBot.SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(move(_chatBot));
+    SetChatbotHandle(&bot);
+    bot.SetChatLogicHandle(this);
+    bot.SetRootNode(rootNode);
+    rootNode->MoveChatbotHere(move(bot));
     
     ////
     //// EOF STUDENT CODE
